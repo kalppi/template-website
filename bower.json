@@ -1,0 +1,22 @@
+{
+  "name": "template-website",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Jarno Luukkonen <luukkonen.jarno@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "bootstrap-sass-official#^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3"
+  }
+}
