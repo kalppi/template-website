@@ -14,6 +14,13 @@ var config = {
 	bowerDir: './bower_components'
 };
 
+gulp.task('clean:build', function() {
+	var rm = require( 'gulp-rm' );
+
+	return gulp.src(config.buildPath + '/**/*', { read: false })
+		.pipe( rm() )
+});
+
 gulp.task('bower', function() {
 	var bower = require('gulp-bower');
 
@@ -81,4 +88,4 @@ gulp.task('watch', function() {
 	});
 });
 
-gulp.task('default', ['bower', 'icons', 'css', 'js', 'html']);
+gulp.task('default', gulp.series('clean:build', 'bower', 'icons', 'css', 'js', 'html'));

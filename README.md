@@ -11,6 +11,7 @@ Clone or download -> Download ZIP
 ## Install
 
 ```
+$ sudo npm install -g gulp-cli
 $ npm install
 $ gulp
 ```
