@@ -12,12 +12,11 @@ Clone or download -> Download ZIP
 
 ```
 $ npm install
-$ gulp bower
+$ gulp
 ```
 
 ## Usage
 
 ```
-$ gulp
 $ gulp watch
 ```
