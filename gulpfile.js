@@ -79,6 +79,7 @@ gulp.task('watch', function() {
     gulp.watch(config.sassPath, ['css']);
     gulp.watch(config.htmlPath, ['html']);
     gulp.watch(config.jsPath, ['js']);
+    gulp.watch(config.imgPath, ['images']);
 
     console.log('Spawning server');
     var s = spawn('node', ['server.js']);
@@ -88,4 +89,4 @@ gulp.task('watch', function() {
 	});
 });
 
-gulp.task('default', gulp.series('clean:build', 'bower', 'icons', 'css', 'js', 'html'));
+gulp.task('default', gulp.series('clean:build', 'bower', 'icons', 'css', 'js', 'images', 'html'));
