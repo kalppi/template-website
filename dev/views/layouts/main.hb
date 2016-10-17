@@ -17,6 +17,6 @@
     <script type="text/javascript" src="/js/all.min.js"></script>
 </head>
 <body>
-
+    {{body}}
 </body>
 </html>

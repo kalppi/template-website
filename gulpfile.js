@@ -7,10 +7,10 @@ var spawn = require('child_process').spawn;
 
 var config = {
 	buildPath: './build',
-	jsPath: './public/js/**/*.js',
-	htmlPath: './public/*.html',
-	imgPath: './public/images/**/*',
-	sassPath: './public/sass/**/*.scss',
+	jsPath: './dev/js/**/*.js',
+	viewPath: './dev/views/**/*',
+	imgPath: './dev/images/**/*',
+	sassPath: './dev/sass/**/*.scss',
 	bowerDir: './bower_components'
 };
 
@@ -29,7 +29,7 @@ gulp.task('bower', function() {
 
 gulp.task('icons', function() {
 	return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
-		.pipe(gulp.dest(config.buildPath + '/fonts'));
+		.pipe(gulp.dest(config.buildPath + '/public/fonts'));
 });
 
 gulp.task('css', function() {
@@ -49,7 +49,7 @@ gulp.task('css', function() {
 			return "Error: " + error.message;
 		}))
 		.pipe(cssmin())
-		.pipe(gulp.dest(config.buildPath + '/css'));
+		.pipe(gulp.dest(config.buildPath + '/public/css'));
 });
 
 gulp.task('images', function() {
@@ -68,25 +68,45 @@ gulp.task('js', function() {
 		.pipe(jshint.reporter(stylish))
 		.pipe(concat('all.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(config.buildPath + '/js'));
+		.pipe(gulp.dest(config.buildPath + '/public/js'));
 });
 
-gulp.task('html', function() {
-	return gulp.src(config.htmlPath).pipe(gulp.dest(config.buildPath));
+gulp.task('views', function() {
+	return gulp.src(config.viewPath).pipe(gulp.dest(config.buildPath + '/views'));
 })
+
+var server = null;
+function spawnServer() {
+	if(server) {
+		console.log('Killing old server');
+		server.kill();
+	}
+
+	console.log('Spawning new server...');
+    server = spawn('node', ['server.js']);
+
+    server.stderr.on('data', (data) => {
+		console.log("> " + data);
+	});
+
+	server.stdout.on('data', (data) => {
+		console.log("> " + data);
+	});
+
+	gulp.watch('server.js', function() {
+		console.log('Server change detected, spawning new');
+
+		spawnServer();
+	});
+}
 
 gulp.task('watch', function() {
     gulp.watch(config.sassPath, gulp.parallel('css'));
-    gulp.watch(config.htmlPath, gulp.parallel('html'));
+    gulp.watch(config.viewPath, gulp.parallel('views'));
     gulp.watch(config.jsPath, gulp.parallel('js'));
     gulp.watch(config.imgPath, gulp.parallel('images'));
 
-    console.log('Spawning server');
-    var s = spawn('node', ['server.js']);
-
-	s.stdout.on('data', (data) => {
-		console.log("> " + data);
-	});
+    spawnServer();
 });
 
-gulp.task('default', gulp.series('clean:build', 'bower', 'icons', 'css', 'js', 'images', 'html'));
+gulp.task('default', gulp.series('clean:build', 'bower', 'icons', 'css', 'js', 'images', 'views'));
