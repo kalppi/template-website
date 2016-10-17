@@ -53,7 +53,7 @@ gulp.task('css', function() {
 });
 
 gulp.task('images', function() {
-	return gulp.src(config.imgPath).pipe(gulp.dest(config.buildPath + '/images'));
+	return gulp.src(config.imgPath).pipe(gulp.dest(config.buildPath + '/public/images'));
 });
 
 gulp.task('js', function() {
