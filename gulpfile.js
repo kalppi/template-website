@@ -76,10 +76,10 @@ gulp.task('html', function() {
 })
 
 gulp.task('watch', function() {
-    gulp.watch(config.sassPath, ['css']);
-    gulp.watch(config.htmlPath, ['html']);
-    gulp.watch(config.jsPath, ['js']);
-    gulp.watch(config.imgPath, ['images']);
+    gulp.watch(config.sassPath, gulp.parallel('css'));
+    gulp.watch(config.htmlPath, gulp.parallel('html'));
+    gulp.watch(config.jsPath, gulp.parallel('js'));
+    gulp.watch(config.imgPath, gulp.parallel('images'));
 
     console.log('Spawning server');
     var s = spawn('node', ['server.js']);
